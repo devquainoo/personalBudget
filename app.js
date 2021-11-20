@@ -6,7 +6,11 @@ const {
     sendEnvelopes,
     handleEnvelopeDelete,
     handleEnvelopeCreation,
-    handleEnvelopeRetrieval
+    handleEnvelopeRetrieval,
+    getFromEnvelope,
+    getToEnvelope,
+    handleUpdateAllEnvelopes,
+    transferBalance
 } = require('./middlewares');
 
 const app = express();
@@ -18,14 +22,23 @@ app.use(morgan('dev'));
 // parse body with body-parser
 app.use(bodyParser.json());
 
+app.param('from', getFromEnvelope)
+app.param('to', getToEnvelope);
 // GET request to retrieve all envelopes
 app.get('/api/envelopes', sendEnvelopes);
 
-// Create / POST individual envelopes
+// Create/POST individual envelopes
 app.post('/api/envelopes', handleEnvelopeCreation)
 
+// update/transfer budget from one envelop to another
+app.post("/api/envelopes/transfer/:from/:to", transferBalance);
+
+// update balance of all nvelopes with a single amount
+app.post('/api/envelopes/update-budgets-all', handleUpdateAllEnvelopes);
+
 // get specific envelope with id/name
-app.get('/api/envelopes/:name', handleEnvelopeRetrieval)
+app.get('/api/envelopes/:name', handleEnvelopeRetrieval);
+
 // DELETE an envelope
 app.delete('/api/envelopes/:name', handleEnvelopeDelete);
 

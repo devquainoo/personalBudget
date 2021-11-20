@@ -34,6 +34,20 @@ function getEnvelope(envelopes, name){
         return null;
     }
 }
+
+// update all envelopes amount if theres any envelop
+function updateEnvelopesAmount(envelopes, amount){
+    if(envelopes.length){
+        envelopes.forEach(env => {
+            env.budget += amount;
+        })
+        return envelopes;
+    }
+    else{
+        return {};
+    }
+} 
+
 // delete  envelope by name
 function deleteEnvelope(envelopes, name){
     const index = getEnvelopeIndex(envelopes, name);
@@ -50,5 +64,6 @@ module.exports = {
     addEvelope,
     getEnvelopeIndex,
     getEnvelope,
+    updateEnvelopesAmount,
     deleteEnvelope
 }
