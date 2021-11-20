@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const morgan = require('morgan');
 
 const {
+    helloWorld,
     sendEnvelopes,
     handleEnvelopeDelete,
     handleEnvelopeCreation,
@@ -24,6 +25,9 @@ app.use(bodyParser.json());
 
 app.param('from', getFromEnvelope)
 app.param('to', getToEnvelope);
+
+// home
+app.get('/', helloWorld)
 // GET request to retrieve all envelopes
 app.get('/api/envelopes', sendEnvelopes);
 

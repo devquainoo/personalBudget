@@ -1,6 +1,9 @@
 const {envelopes} = require('./db.js');
 const {deleteEnvelope, addEvelope, getEnvelope, updateEnvelopesAmount} = require('./helpers')
 
+function helloWorld(req, res, next){
+    res.statsu(200).send("Hello world")
+}
 function sendEnvelopes(req, res, next){
     res.status(200).json(envelopes);
 }
@@ -90,6 +93,7 @@ function errorHandler(err,req,res,next){
 }
 
 module.exports = {
+    helloWorld,
     sendEnvelopes,
     handleEnvelopeDelete,
     handleEnvelopeCreation,
