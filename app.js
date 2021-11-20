@@ -10,6 +10,8 @@ const {
     handleEnvelopeRetrieval,
     getFromEnvelope,
     getToEnvelope,
+    getEnvelope,
+    handleUpdateBalance,
     handleUpdateAllEnvelopes,
     transferBalance
 } = require('./middlewares');
@@ -42,6 +44,9 @@ app.post('/api/envelopes/update-budgets-all', handleUpdateAllEnvelopes);
 
 // get specific envelope with id/name
 app.get('/api/envelopes/:name', handleEnvelopeRetrieval);
+
+// update envelop balance
+app.put('/api/envelopes/:name/update', getEnvelope, )
 
 // DELETE an envelope
 app.delete('/api/envelopes/:name', handleEnvelopeDelete);

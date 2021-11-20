@@ -2,8 +2,30 @@ const {envelopes} = require('./db.js');
 const {deleteEnvelope, addEvelope, getEnvelope, updateEnvelopesAmount} = require('./helpers')
 
 function helloWorld(req, res, next){
-    res.statsu(200).send("Hello world")
+    res.status(200).send("Hello world")
 }
+
+function getEnvelope(req, res, next, name){
+    const envelope = getEnvelope(envelopes, name);
+    if(envelope){
+        req.envelope = envelope;
+        return next();
+    }
+    const err = new Error('Envelope Does not Exist');
+    err.status = 404;
+    next(err);
+}
+
+// handle update envelope budget
+function handleUpdateBalance(req, res, next){
+const amount = Number(req.headers.amount)
+    if(amount){
+        req.envelope.budget += amount;
+        return res.status(201).send('Update succesful')
+    }
+    res.status(401).send();
+}
+
 function sendEnvelopes(req, res, next){
     res.status(200).json(envelopes);
 }
@@ -101,6 +123,8 @@ module.exports = {
     transferBalance,
     getFromEnvelope,
     getToEnvelope,
+    getEnvelope,
+    handleUpdateBalance,
     handleUpdateAllEnvelopes,
     errorHandler
 }
