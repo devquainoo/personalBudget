@@ -1,27 +1,42 @@
 function createEnvelope(name, budget){
     return {
-        'name': name,
+        name,
         budget
     }
 }
-function addEvelope(envelopes, name, budget){
-    const envelope = createEnvelope(name, budget);
-    envelopes.push(envelope);
+function addEvelope(envelopes, data){
+    const keys = Object.keys(data);
+
+    if(keys.includes('name') || keys.includes('budget')){
+        if(data.name || data.budget){
+            const envelope = createEnvelope(data.name, data.budget);
+            envelopes.push(envelope);
+            return true;
+        }
+    }
+    return false;
 }
 
 // get index of an envelope in envelopes array
-function getEnvelopeIndex(envelopes, id){
-    id = Number(id);
+function getEnvelopeIndex(envelopes, name){
    return envelopes.findIndex(envelope => {
-        if (envelope.id === id){
+        if (envelope.name === name){
             return envelope
         }
     });
 }
-
-// delete  envelope by id
-function deleteEnvelope(envelopes, id){
-    const index = getEnvelopeIndex(envelopes, id);
+// get envelope
+function getEnvelope(envelopes, name){
+    const index = getEnvelopeIndex(envelopes, name);
+    if(index > -1){
+        return envelopes[index]
+    }else{
+        return null;
+    }
+}
+// delete  envelope by name
+function deleteEnvelope(envelopes, name){
+    const index = getEnvelopeIndex(envelopes, name);
     if(index > -1){
         envelopes.splice(index,1);
         console.log(envelopes)
@@ -34,5 +49,6 @@ module.exports = {
     createEnvelope,
     addEvelope,
     getEnvelopeIndex,
+    getEnvelope,
     deleteEnvelope
 }
